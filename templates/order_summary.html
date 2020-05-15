@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}<title>Yogi e-kart - Cart Summary</title>{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="table-responsive text-nowrap white">
+            <table class="table table-responsive-md">
+                <thead>
+                <tr>
+                    <th class="font-weight-bold">#</th>
+                    <th class="font-weight-bold">Title</th>
+                    <th class="font-weight-bold">Price</th>
+                    <th class="font-weight-bold">Quantity</th>
+                    <th class="font-weight-bold">Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order_item in object.items.all %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{% url 'core:product' order_item.item.slug %}"
+                               class="hoverable blue-text font-weight-bold">
+                            {{ forloop.counter }}
+                            </a>
+                        </th>
+                        <td>
+                            <a href="{% url 'core:product' order_item.item.slug %}"
+                               class="hoverable blue-text font-weight-bold">
+                        {{ order_item.item.title }}
+                        </a>
+                        </td>
+                        <td>{{ order_item.item.offer_url }}</td>
+                        <td>
+                        <div class="_3RkJty">
+                                <div class="_3md1dr">
+
+                                <a href="{% url 'core:decrease-quantity' order_item.item.slug %}">
+
+                                <button class="wNrY5O">–</button>
+                                </a>
+{#                                    <span class="badge bg-info ml-2 mr-2">{{ order_item.quantity }}</span>#}
+                                <button class="wNrY5O mr-2 ml-2">{{ order_item.quantity }}</button>
+                                    <a href="{% url 'core:increase-quantity' order_item.item.slug %}">
+
+                            <button class="wNrY5O"> +</button>
+                            </a>
+                                </div>
+                        </div>
+                        </td>
+                        <td>
+                            {% if order_item.item.discount_percent %}
+                            {{ order_item.get_total_price }}
+                            <span class="badge badge-primary">saving Rs.{{ order_item.total_saving }}</span>
+                            {% else %}
+                            {{ order_item.get_total_price }}
+                            {% endif %}
+                        </td>
+                        <td><a href="{% url 'core:remove-item-from-summary' order_item.id %}" style="color: red">
+                            <i class="fas fa-trash"></i></a></td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="font-weight-bold text-center">Your cart is empty</td>
+                    </tr>
+                    <td>
+                    <td colspan="4">
+                        <a href="/">
+                            <button class="btn btn-default float-right">Continue Shopping</button>
+                        </a>
+                    </td>
+                    <tr>
+
+                    </tr>
+                {% endfor %}
+                {% if object.grand_total_price %}
+                    <tr>
+                        <td colspan="4" class="font-weight-bold text-center">Order Total</td>
+                        <td class="font-weight-bold">Rs.{{ object.grand_total_price }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a class='btn btn-warning float-right ml-2' href='{% url 'core:checkout' %}'>Proceed to
+                                checkout</a>
+                            <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

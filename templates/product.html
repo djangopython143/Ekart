@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load add_to_cart %}
+{% block title %}<title>Yogi e-kart - {{ object.brand|capfirst }}</title>{% endblock %}
+{% block content %}
+    {% load add_to_cart %}
+    <style>
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block; /* remove extra space below image */
+            margin: 0 auto;
+            vertical-align: middle;
+        }
+    button{max-width: content-box}
+    </style>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+                <div class="col-md-4 col-sm-12" style="box-shadow: 2px 2px 2px 5px lightgray">
+<center>
+                                <div style="width: 400px;height: 400px;"
+                                class="img-thumbnail">
+                                    <img src="{{ object.image.url }}">
+                                </div>
+
+                    {% if request.user.is_authenticated %}
+                                {% ifequal request.user|perticular_item:object.id 0 %}
+                                    <a href="{{ object.add_to_cart_url }}">
+                                        <button class="btn btn-default btn-md center-block">
+                                            ADD TO CART <i class="fas fa-shopping-cart ml-1"></i>
+                                        </button>
+                                    </a>
+
+                                {% else %}
+
+                                        <a href="{{ object.remove_from_cart_url }}">
+                                            <button class="btn btn-danger btn-md center-block">
+                                                REMOVE FROM CART
+                                            </button>
+                                        </a>
+
+                                {% endifequal %}
+
+                                    <a href="{% url 'core:buy-now' object.slug %}">
+                                        <button class="btn btn-deep-orange btn-md center-block">
+                                            BUY NOW
+                                        </button>
+                                    </a>
+
+                            {% else %}
+{#<div class="col-md-6 col-sm-12">#}
+                                    <a href="{{ object.add_to_cart_url }}">
+                                        <button class="btn btn-default btn-md center-block">
+                                            ADD TO CART <i class="fas fa-shopping-cart ml-1"></i>
+                                        </button>
+                                    </a>
+
+
+                                    <a href="{% url 'core:buy-now' object.slug %}">
+                                        <button class="btn btn-deep-orange btn-md center-block">
+                                            BUY NOW
+                                        </button>
+                                    </a>
+{#</div>#}
+                            {% endif %}
+
+</center>
+                </div>
+
+                <div class="col-md-8 col-sm-12">
+                        <div class="_29OxBi">
+                            <div class="_9E25nV"><span class="_2J4LW6">{{ object.brand }}</span></div>
+                            <div>
+                                <h1 class="_9E25nV blue-text">
+                                    <span class="_35KyD6">{{ object.title|capfirst }}</span>
+                                </h1>
+                            </div>
+
+                            <div class="_3iZgFn">
+                                <div class="_2i1QSc">
+                                    <div class="_1uv9Cb">
+                                        {% if object.discount_percent %}
+                                            <div class="_1vC4OE _3qQ9m1 pink-text">Rs.{{ object.offer_url }}</div>
+                                            <div class="_3auQ3N _1POkHg">Rs.{{ object.price }}</div>
+                                            <div class="VGWI6T _1iCvwn"><span>{{ object.discount_percent }}% off</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="_1vC4OE _3qQ9m1 pink-text">Rs.{{ object.price }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="_1HmYoV hCUpcT" style="padding:24px 0px 0px 0px">
+                            <div class="g2dDAR">
+                                <div class="_2hqjdd">Highlights</div>
+                                <div class="_3WHvuP">
+                                    <ul>
+                                        {% for i in object.id|highlight %}
+                                        <li class="_2-riNZ">{{ i|capfirst }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="_1y9a40">
+                        <div class="_1oCqc9">Description</div>
+                        <div class="_3cpW1u">
+                            <div class="_3la3Fn _1zZOAc text-justify">
+                                {{ object.description|capfirst }}
+                            </div>
+                            <div class="_2tNhj9 C58Ieq">
+                                <div class="_16-Ekq"></div>
+                            </div>
+                        </div>
+                        <div class="bhgxx2 col-12-12">
+                        <div class="MocXoX">
+                            <div class="_2GiuhO">Specifications</div>
+                            <div>
+                                <div class="_3Rrcbo V39ti-">
+                                    <div class="_2RngUh">
+                                        <div class="_2lzn0o">In The Box</div>
+                                        <table class="_3ENrHu">
+                                            <tbody>
+                                            <tr class="_3_6Uyw row">
+                                                <td class="_3-wDH3 col col-3-12">Sales Package</td>
+                                                <td class="_2k4JXJ col col-9-12">
+                                                    <ul>
+                                                        <li class="_3YhLQA">{{ object.sales_package }}</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="_2RngUh">
+                                        <div class="_2lzn0o">General</div>
+                                        <table class="_3ENrHu">
+                                            <tbody>
+                                            <tr class="_3_6Uyw row">
+                                                <td class="_3-wDH3 col col-3-12">Brand</td>
+                                                <td class="_2k4JXJ col col-9-12">
+                                                    <ul>
+                                                        <li class="_3YhLQA">{{ object.brand }}</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr class="_3_6Uyw row">
+                                                <td class="_3-wDH3 col col-3-12">Model Number</td>
+                                                <td class="_2k4JXJ col col-9-12">
+                                                    <ul>
+                                                        <li class="_3YhLQA">{{ object.model_num }}</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                    </div>
+
+
+{% endblock %}
+</div>
+</div>
+

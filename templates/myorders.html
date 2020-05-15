@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h3>My Orders</h3>
+    <div class="table-responsive text-nowrap white">
+    <table class="table table-responsive-md text-center table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Ref Code</th>
+            <th>Title</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Ordered Date</th>
+            <th>Delivery Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for myorder in myorders %}
+            <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ myorder.ref_code }}</td>
+                {% for i in myorder.items.all %}
+            <td>{{ i.item.title }}</td>
+            <td>{{ i.quantity }}</td>
+            <td>{% if i.item.discount_percent %}
+                            {{ i.get_total_price }}
+                            <span class="badge badge-primary">saving Rs.{{ i.total_saving }}</span>
+                            {% else %}
+                            {{ i.get_total_price }}
+            {% endif %}</td>
+                    {% endfor %}
+            <td>{{ myorder.ordered_date }}</td>
+            {% ifequal myorder.recieved True %}
+            <td>Delivered</td>
+            {% else %}
+            <td>Pending</td>
+            {% endifequal %}
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    </div>
+
+    </div>
+
+{% endblock %}
